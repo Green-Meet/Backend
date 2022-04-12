@@ -1,0 +1,51 @@
+const cookieParser = require("cookie-parser");
+const express = require("express");
+const app = express();
+
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
+
+// Dotenv
+const dotenv = require("dotenv");
+dotenv.config({
+    path: "./config.env"
+});
+
+// PostGres
+const { Pool } = require("pg");
+const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+
+// ********** ROUTES ********* //
+
+// Routers import
+const auth = require("./routers/auth");
+const login = require("./routers/login");
+const logout = require("./routers/logout");
+const register = require("./routers/register");
+const requests = require("./routers/requests");
+const users = require("./routers/users");
+
+
+// API routes
+app.use("/auth", auth);
+app.use("/login", login);
+app.use("/logout", logout);
+app.use("/register", register);
+app.use("/requests", requests);
+app.use("/users", users);
+
+app.get("/", (_req, res) => {
+    res.setHeader("Content-Type", "text/html");
+    res.send("<h1>Welcome</h1>");
+});
+
+// // Routes inexistantes
+app.get("*", (_req, res) => {
+    res.status(404).send("Error 404, this page does not exists");
+});
+
+// Server start
+app.listen(8000, () => {
+    console.log("Listening on port 8000...");
+});
