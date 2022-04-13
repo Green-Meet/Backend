@@ -31,9 +31,22 @@ router.get("/", async (_req, res) => {
     } catch (err) {
         return res.status(400).json({
             message: err,
-        })
+        });
+    }
+});
+// Get an action by id
+router.get("/:action_id", async (req, res) => {
+    try {
+        const action = await Postgres.query("SELECT * FROM actions WHERE action_id=$1", [req.params.action_id]);
+        if (action.rows.length === 0) {
+            return res.status(400).json({ message: `Action with id: ${req.params.action_id} not found` });
+        }
+        return res.status(200).json({ data: action.rows[0] });
+    } catch (err) {
+        return res.status(400).json({ message: err });
     }
 })
+
 // Delete action 
 router.delete("/:action_id", isLoggedIn, isOrganiser, async (req, res) => {
     try {
