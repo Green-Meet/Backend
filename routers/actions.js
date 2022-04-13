@@ -5,6 +5,7 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 
 // Middlewares
 const isLoggedIn = require("../middlewares/isLogged");
+const isOrganiser = require("../middlewares/isOrganiser");
 
 // Action creation (POST)
 router.post("/", isLoggedIn, async (req, res) => {
@@ -33,6 +34,15 @@ router.get("/", async (_req, res) => {
         })
     }
 })
+// Delete action 
+router.delete("/:action_id", isLoggedIn, isOrganiser, async (req, res) => {
+    try {
+        await Postgres.query("DELETE FROM actions WHERE action_id=$1", [req.params.action_id]);
+    } catch (err) {
+        return res.status(400).json({ message: err });
+    }
+    res.status(200).json({ message: "Action deleted" });
+});
 
 // Export route
 module.exports = router;
