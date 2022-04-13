@@ -11,10 +11,11 @@ app.use(express.json());
 router.post("/", async (req, res) => {
     // Password hashing
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    const { firstName, lastName, email, city } = req.body;
     try {
         await Postgres.query(
             "INSERT INTO users(last_name, first_name, email, city, password) VALUES ($1, $2, $3, $4, $5)",
-            [req.body.firstName, req.body.lastName, req.body.email, req.body.city, hashedPassword]
+            [firstName, lastName, email, city, hashedPassword]
         );
     } catch (err) {
         return res.status(400).json({ message: err });

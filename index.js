@@ -23,13 +23,14 @@ const login = require("./routers/login");
 const logout = require("./routers/logout");
 const register = require("./routers/register");
 const users = require("./routers/users");
-
+const actions = require("./routers/actions");
 
 // API routes
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/register", register);
 app.use("/users", users);
+app.use("/actions", actions);
 
 app.get("/", (_req, res) => {
     res.setHeader("Content-Type", "text/html");
