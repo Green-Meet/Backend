@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
     } catch (err) {
         return res.status(400).json({ message: err });
     }
+    console.log(users.rows.length === 0);
     res.json({ data: users.rows });
 });
 
