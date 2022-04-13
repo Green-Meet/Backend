@@ -20,5 +20,19 @@ router.post("/", isLoggedIn, async (req, res) => {
     });
 });
 
+// Get all actions
+router.get("/", async (_req, res) => {
+    try {
+        const actions = await Postgres.query("SELECT * FROM actions");
+        return res.status(200).json({
+            data: actions.rows,
+        })
+    } catch (err) {
+        return res.status(400).json({
+            message: err,
+        })
+    }
+})
+
 // Export route
 module.exports = router;
