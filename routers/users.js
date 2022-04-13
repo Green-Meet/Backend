@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     } catch (err) {
         return res.status(400).json({ message: err });
     }
-    res.json({ data: users });
+    res.json({ data: users.rows });
 });
 
 // Export route

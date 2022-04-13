@@ -19,20 +19,16 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 // ********** ROUTES ********* //
 
 // Routers import
-const auth = require("./routers/auth");
 const login = require("./routers/login");
 const logout = require("./routers/logout");
 const register = require("./routers/register");
-const requests = require("./routers/requests");
 const users = require("./routers/users");
 
 
 // API routes
-app.use("/auth", auth);
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/register", register);
-app.use("/requests", requests);
 app.use("/users", users);
 
 app.get("/", (_req, res) => {
