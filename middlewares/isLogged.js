@@ -10,6 +10,7 @@ const isLoggedIn = (req, res, next) => {
     } catch (err) {
         return res.status(401).json({
             message: "You are not logged in",
+            place: "isLoggedIn"
         });
     }
     next();

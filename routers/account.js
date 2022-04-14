@@ -7,6 +7,7 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 // Middleware 
 const isLoggedIn = require("../middlewares/isLogged");
 
+
 // get user data 
 router.get("/:user_id", isLoggedIn, async (req, res) => {
     try {
@@ -42,25 +43,10 @@ router.patch("/", isLoggedIn, async (req, res) => {
     })
 });
 
-// Delete user account 
-// router.delete("/", isLoggedIn, async (_req, res) => {
-//   try {
-
-//   } catch (err) {
-
-//   }
-// });
-
 // GET user's actions 
-router.get("/actions", isLoggedIn, async (req, res) => {
+router.get("/actions", isLoggedIn, async (req, res) => {    
     try {
-        console.log('actions');
         const actions = await Postgres.query("SELECT * FROM actions INNER JOIN participants ON participants.action_id = actions.action_id WHERE participants.user_id = $1", [req.data.id]);
-        if (actions.rows.length === 0) {
-            return res.status(200).json({
-                message: "There are no actions found"
-            })
-        }
         return res.status(200).json({
             data: actions.rows,
         })
@@ -70,6 +56,15 @@ router.get("/actions", isLoggedIn, async (req, res) => {
         })
     }
 });
+
+// Delete user account 
+// router.delete("/", isLoggedIn, async (_req, res) => {
+//   try {
+
+//   } catch (err) {
+
+//   }
+// });
 
 // Exports
 module.exports = router;
