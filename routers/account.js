@@ -20,5 +20,27 @@ router.get("/:user_id", isLoggedIn, async (req, res) => {
     }
 });
 
+// PATCH route to modify the data of a user
+router.patch("/", isLoggedIn, async (req, res) => {
+    let queryStart = "UPDATE users SET ";
+    let queryEnd = " WHERE user_id = $1";
+    let params = Object.keys(req.body);
+    let sql = params.reduce((prev, curr, index) => {
+        if (curr !== "is_admin" && curr !== "password") {
+            return index === 0 ? `${prev} ${curr} = '${req.body[curr]}'` : `${prev}, ${curr} = '${req.body[curr]}'`
+        }
+    }, queryStart) + queryEnd;
+    try {
+        await Postgres.query(sql, [req.data.id]);
+    } catch (err) {
+        return res.status(400).json({
+            message: err,
+        });
+    }
+    res.status(200).json({
+        message: "User updated"
+    })
+});
+
 // Exports
 module.exports = router;
