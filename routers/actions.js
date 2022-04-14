@@ -6,9 +6,10 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 // Middlewares
 const isLoggedIn = require("../middlewares/isLogged");
 const isOrganiser = require("../middlewares/isOrganiser");
+const { actionValidation } = require("../middlewares/validateReqData");
 
 // Action creation (POST)
-router.post("/", isLoggedIn, async (req, res) => {
+router.post("/", isLoggedIn, actionValidation, async (req, res) => {
     const { title, type, description, address, date, time, city } = req.body;
     try {
         await Postgres.query("INSERT INTO actions(title, type, description, address, date, time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
