@@ -7,7 +7,10 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const secret = process.env.SECRET;
 
-router.post("/", async (req, res) => {
+// Middleware 
+const { loginValidation } = require("../middlewares/validateReqData");
+
+router.post("/", loginValidation, async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await Postgres.query("SELECT * FROM users WHERE email=$1", [email]);

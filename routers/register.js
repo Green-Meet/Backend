@@ -8,7 +8,7 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 
 // Middleware
 app.use(express.json());
-const regValidation = require('../middlewares/validateReqData');
+const { regValidation } = require('../middlewares/validateReqData');
 
 // Create user (signup)
 router.post("/", regValidation, async (req, res) => {
