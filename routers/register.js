@@ -4,11 +4,14 @@ const bcrypt = require("bcrypt");
 const app = express();
 const { Pool } = require("pg");
 const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+// const joi = require("Joi");
 
+// Middleware
 app.use(express.json());
+const regValidation = require('../middlewares/validateReqData');
 
 // Create user (signup)
-router.post("/", async (req, res) => {
+router.post("/", regValidation, async (req, res) => {
     // Password hashing
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const { firstName, lastName, email, city } = req.body;
