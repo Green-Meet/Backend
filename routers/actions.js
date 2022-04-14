@@ -6,7 +6,7 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 // Middlewares
 const isLoggedIn = require("../middlewares/isLogged");
 const isOrganiser = require("../middlewares/isOrganiser");
-const { actionValidation } = require("../middlewares/validateReqData");
+const { actionValidation, actionPatchValidation } = require("../middlewares/validateReqData");
 
 // Action creation (POST)
 router.post("/", isLoggedIn, actionValidation, async (req, res) => {
@@ -65,7 +65,7 @@ router.get("/:action_id", async (req, res) => {
 });
 
 // PATCH an action
-router.patch("/:action_id", isLoggedIn, isOrganiser, async (req, res) => {
+router.patch("/:action_id", isLoggedIn, isOrganiser, actionPatchValidation, async (req, res) => {
     let queryStart = "UPDATE actions SET ";
     let queryEnd = " WHERE action_id=$1";
     let params = Object.keys(req.body);

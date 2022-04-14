@@ -23,6 +23,15 @@ const actionSchema = Joi.object({
     time: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})-([0-9]{2})\:([0-9]{2})$/).required(),
     city: Joi.string().required(),
 });
+const actionPatchSchema = Joi.object({
+    title: Joi.string(),
+    type: Joi.string(),
+    description: Joi.string(),
+    address: Joi.string(),
+    date: Joi.date(),
+    time: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})-([0-9]{2})\:([0-9]{2})$/).required(),
+    city: Joi.string(),
+});
 
 const regValidation = (req, res, next) => {
     const validationResult = registerSchema.validate(req.body);
@@ -51,7 +60,18 @@ const actionValidation = (req, res, next) => {
     }
     next();
 };
+const actionPatchValidation = (req, res, next) => {
+    const validationResult = actionPatchSchema.validate(req.body);
+    if (validationResult.error) {
+        return res.status(400).json({
+            message: validationResult.error,
+        });
+    }
+    next();
+};
 
 
 //Export
-module.exports = { regValidation, loginValidation, actionValidation };
+module.exports = {
+    regValidation, loginValidation, actionValidation, actionPatchValidation
+};
