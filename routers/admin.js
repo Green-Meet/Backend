@@ -30,6 +30,19 @@ router.delete("/action/:action_id", isLoggedIn, isAdmin, async (req, res) => {
     res.status(200).json({ message: "Action deleted" });
 });
 
+// DELETE user
+router.delete("/user/:user_id", isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        await Postgres.query("UPDATE users SET first_name = null, last_name = null, email = null, city = null, password = null, is_deleted = true WHERE user_id=$1", [req.params.user_id]);
+        return res.status(200).json({
+            message: "User deleted",
+        })
+    } catch (err) {
+        return res.status(400).json({
+            message: err,
+        })
+    }
+});
 
 
 // Export
