@@ -2,15 +2,15 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
 
-// Middlewares
-app.use(express.json());
-app.use(cookieParser());
-
 // Dotenv
 const dotenv = require("dotenv");
 dotenv.config({
     path: "./config.env"
 });
+
+// Middlewares
+app.use(cookieParser());
+app.use(express.json());
 
 // PostGres
 const { Pool } = require("pg");
