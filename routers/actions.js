@@ -81,10 +81,10 @@ router.patch("/:action_id", isLoggedIn, isOrganiser, actionPatchValidation, asyn
     res.status(200).json({ message: "Action updated" });
 });
 
-// Delete action 
+// Delete action (set status to 2)
 router.delete("/:action_id", isLoggedIn, isOrganiser, async (req, res) => {
     try {
-        await Postgres.query("DELETE FROM actions WHERE action_id=$1", [req.params.action_id]);
+        await Postgres.query("UPDATE actions SET status = 2 WHERE action_id=$1", [req.params.action_id]);
     } catch (err) {
         return res.status(400).json({ message: err });
     }

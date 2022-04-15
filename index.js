@@ -22,17 +22,17 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 const login = require("./routers/login");
 const logout = require("./routers/logout");
 const register = require("./routers/register");
-const users = require("./routers/users");
 const actions = require("./routers/actions");
 const account = require("./routers/account");
+const admin = require("./routers/admin");
 
 // API routes
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/register", register);
-app.use("/users", users);
 app.use("/actions", actions);
 app.use("/account", account);
+app.use("/admin", admin);
 
 app.get("/", (_req, res) => {
     res.setHeader("Content-Type", "text/html");
