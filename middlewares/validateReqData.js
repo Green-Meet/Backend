@@ -33,6 +33,14 @@ const actionPatchSchema = Joi.object({
     city: Joi.string(),
 });
 
+const userPatchSchema = Joi.object({
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    email: Joi.string().email(),
+    city: Joi.string(),
+    address: Joi.string(),
+})
+
 const regValidation = (req, res, next) => {
     const validationResult = registerSchema.validate(req.body);
     if (validationResult.error) {
@@ -70,8 +78,18 @@ const actionPatchValidation = (req, res, next) => {
     next();
 };
 
+const userPatchValidation = (req, res, next) => {
+    const validationResult = userPatchSchema.validate(req.body);
+    if (validationResult.error) {
+        return res.status(400).json({
+            message: validationResult.error,
+        });
+    }
+    next();
+};
+
 
 //Export
 module.exports = {
-    regValidation, loginValidation, actionValidation, actionPatchValidation
+    regValidation, loginValidation, actionValidation, actionPatchValidation, userPatchValidation,
 };

@@ -6,6 +6,7 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 
 // Middleware 
 const isLoggedIn = require("../middlewares/isLogged");
+const { userPatchValidation } = require("../middlewares/validateReqData");
 
 
 // get user data 
@@ -22,7 +23,7 @@ router.get("/:user_id", isLoggedIn, async (req, res) => {
 });
 
 // PATCH route to modify the data of a user
-router.patch("/", isLoggedIn, async (req, res) => {
+router.patch("/", isLoggedIn, userPatchValidation, async (req, res) => {
     let queryStart = "UPDATE users SET ";
     let queryEnd = " WHERE user_id = $1";
     let params = Object.keys(req.body);
@@ -44,7 +45,7 @@ router.patch("/", isLoggedIn, async (req, res) => {
 });
 
 // GET user's actions 
-router.get("/actions", isLoggedIn, async (req, res) => {    
+router.get("/actions", isLoggedIn, async (req, res) => {
     try {
         const actions = await Postgres.query("SELECT * FROM actions INNER JOIN participants ON participants.action_id = actions.action_id WHERE participants.user_id = $1", [req.data.id]);
         return res.status(200).json({
