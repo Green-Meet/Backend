@@ -59,7 +59,7 @@ router.get("/actions", isLoggedIn, async (req, res) => {
 });
 
 // Delete user account 
-router.delete("/", isLoggedIn, async (_req, res) => {
+router.delete("/", isLoggedIn, async (req, res) => {
     try {
         await Postgres.query("UPDATE users SET first_name = null, last_name = null, email = null, city = null, password = null, is_deleted = true WHERE user_id=$1", [req.data.id]);
         res.clearCookie("jwt").redirect("/");
