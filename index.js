@@ -1,6 +1,12 @@
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
+// Cors 
+const cors = require("cors");
+app.use({
+    origin: "http://localhost:3000", 
+    credentials: true,
+});
 
 // Dotenv
 const dotenv = require("dotenv");
