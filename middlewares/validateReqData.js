@@ -8,7 +8,6 @@ const registerSchema = Joi.object({
     email: Joi.string().required().email(),
     password: Joi.string().min(6).required(),
     city: Joi.string().required(),
-    address: Joi.string().required(),
 });
 const loginSchema = Joi.object({
     email: Joi.string().required().email(),
