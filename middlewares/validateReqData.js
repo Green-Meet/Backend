@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const Joi = require("Joi");
+const Joi = require("@hapi/joi");
 
 const registerSchema = Joi.object({
     firstName: Joi.string().required(),
