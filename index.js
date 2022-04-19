@@ -53,12 +53,6 @@ app.get("*", (_req, res) => {
 });
 
 // Server start
-<<<<<<< HEAD
 app.listen(8001, () => {
-    console.log("Listening on port 8000...");
+    console.log("Listening on port 8001...");
 });
-=======
-app.listen(8000, () => {
-  console.log("Listening on port 8000...");
-});
->>>>>>> develop
