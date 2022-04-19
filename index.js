@@ -1,17 +1,19 @@
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
-// Cors 
+// Cors
 const cors = require("cors");
-app.use({
-    origin: "http://localhost:3000", 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
     credentials: true,
-});
+  })
+);
 
 // Dotenv
 const dotenv = require("dotenv");
 dotenv.config({
-    path: "./config.env"
+  path: "./config.env",
 });
 
 // Middlewares
@@ -41,16 +43,16 @@ app.use("/account", account);
 app.use("/admin", admin);
 
 app.get("/", (_req, res) => {
-    res.setHeader("Content-Type", "text/html");
-    res.send("<h1>Welcome</h1>");
+  res.setHeader("Content-Type", "text/html");
+  res.send("<h1>Welcome</h1>");
 });
 
 // // Routes inexistantes
 app.get("*", (_req, res) => {
-    res.status(404).send("Error 404, this page does not exists");
+  res.status(404).send("Error 404, this page does not exists");
 });
 
 // Server start
 app.listen(8000, () => {
-    console.log("Listening on port 8000...");
+  console.log("Listening on port 8000...");
 });
