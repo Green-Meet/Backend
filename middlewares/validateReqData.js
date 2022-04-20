@@ -1,28 +1,28 @@
 const express = require("express");
 const app = express();
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
 
 const registerSchema = Joi.object({
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  email: Joi.string().required().email(),
-  password: Joi.string().min(6).required(),
-  city: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().min(6).required(),
+    city: Joi.string().required(),
 });
 const loginSchema = Joi.object({
   email: Joi.string().required().email(),
   password: Joi.string().min(6).required(),
 });
 const actionSchema = Joi.object({
-  title: Joi.string().required(),
-  type: Joi.string().required(),
-  description: Joi.string().required(),
-  address: Joi.string().required(),
-  date: Joi.date().required(),
-  time: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})-([0-9]{2})\:([0-9]{2})$/)
-    .required(),
-  city: Joi.string().required(),
+    title: Joi.string().required(),
+    type: Joi.string().required(),
+    description: Joi.string().required(),
+    address: Joi.string().required(),
+    beginDate: Joi.date().required(),
+    endDate: Joi.date().required(),
+    beginTime: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
+    endTime: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
+    city: Joi.string().required(),
 });
 const actionPatchSchema = Joi.object({
   title: Joi.string(),
