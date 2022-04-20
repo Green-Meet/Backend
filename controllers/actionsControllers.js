@@ -5,7 +5,7 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 const createAction = async (req, res) => {
     const { title, type, description, address, date, time, city } = req.body;
     try {
-        await Postgres.query("INSERT INTO actions(title, type, description, address, begin_date, end_date, begin_time, end_time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+        await Postgres.query("INSERT INTO actions(title, type, description, address, begin_date, end_date, begin_time, end_time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
             [title, type, description, address, beginDate, endDate, beginTime, endTime, req.data.id, city.toLowerCase()]);
     } catch (err) {
         res.status(400).json({ message: err });
