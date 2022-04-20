@@ -5,9 +5,9 @@ const router = express.Router();
 const { loginValidation } = require("../middlewares/validateReqData");
 
 // Controller
-const { longinRoute } = require("../controllers/loginControllers");
+const { login } = require("../controllers/loginControllers");
 
-router.post("/", loginValidation, longinRoute);
+router.post("/", loginValidation, login);
 
 // Export route
 module.exports = router;

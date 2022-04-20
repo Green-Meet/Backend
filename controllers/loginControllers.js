@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
 // Login route
-const longinRoute = async (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await Postgres.query("SELECT * FROM users WHERE email=$1", [email]);
@@ -39,4 +39,4 @@ const longinRoute = async (req, res) => {
 };
 
 // Export
-module.exports = { longinRoute };
+module.exports = { login };
