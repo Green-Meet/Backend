@@ -18,8 +18,10 @@ const actionSchema = Joi.object({
     type: Joi.string().required(),
     description: Joi.string().required(),
     address: Joi.string().required(),
-    date: Joi.date().required(),
-    time: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})-([0-9]{2})\:([0-9]{2})$/).required(),
+    beginDate: Joi.date().required(),
+    endDate: Joi.date().required(),
+    beginTime: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
+    endTime: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
     city: Joi.string().required(),
 });
 const actionPatchSchema = Joi.object({
