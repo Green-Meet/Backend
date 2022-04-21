@@ -2,24 +2,28 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 
-
-// Middleware 
+// Middleware
 const isLoggedIn = require("../middlewares/isLogged");
 const { userPatchValidation } = require("../middlewares/validateReqData");
 
 // Controllers
-const { getUser, patchUser, userActions, deleteUser } = require("../controllers/accountControllers");
+const {
+  getUser,
+  patchUser,
+  userActions,
+  deleteUser,
+} = require("../controllers/accountControllers");
 
-// get user data 
-router.get("/:user_id", isLoggedIn, getUser);
+// get user data
+router.get("/", isLoggedIn, getUser);
 
 // PATCH route to modify the data of a user
 router.patch("/", isLoggedIn, userPatchValidation, patchUser);
 
-// GET user's actions 
+// GET user's actions
 router.get("/actions", isLoggedIn, userActions);
 
-// Delete user account 
+// Delete user account
 router.delete("/", isLoggedIn, deleteUser);
 
 // Exports
