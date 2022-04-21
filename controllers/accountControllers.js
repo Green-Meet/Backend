@@ -5,12 +5,12 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 const getUser = async (req, res) => {
   try {
     const user = await Postgres.query("SELECT * FROM USERS WHERE user_id=$1", [
-      req.body.id,
+      req.data.id,
     ]);
     if (user.rows.length === 0) {
       return res
         .status(400)
-        .json({ message: `User with id ${req.body.id} not found` });
+        .json({ message: `User with id ${req.data.id} not found` });
     }
     return res.status(200).json({ data: user.rows[0] });
   } catch (err) {
