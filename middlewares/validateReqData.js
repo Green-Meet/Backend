@@ -32,11 +32,9 @@ const actionPatchSchema = Joi.object({
   beginDate: Joi.date(),
   endDate: Joi.date(),
   beginTime: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})$/)
-    .required(),
+    .regex(/^([0-9]{2})\:([0-9]{2})$/),
   endTime: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})$/)
-    .required(),
+    .regex(/^([0-9]{2})\:([0-9]{2})$/),
   city: Joi.string(),
 });
 
