@@ -33,6 +33,7 @@ const register = require("./routers/register");
 const actions = require("./routers/actions");
 const account = require("./routers/account");
 const admin = require("./routers/admin");
+const contact = require("./routers/contact");
 
 // API routes
 app.use("/login", login);
@@ -41,6 +42,7 @@ app.use("/register", register);
 app.use("/actions", actions);
 app.use("/account", account);
 app.use("/admin", admin);
+app.use("/contact", contact);
 
 app.get("/", (_req, res) => {
   res.setHeader("Content-Type", "text/html");
