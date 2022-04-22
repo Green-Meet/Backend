@@ -170,9 +170,10 @@ const joinAction = async (req, res) => {
   try {
     const actions = await Postgres.query(
       "SELECT * FROM participants WHERE user_id=$1 AND action_id=$2",
-      [req.data.id, req.params.id]
+      [req.data.id, req.params.action_id]
     );
-    if (actions.fields.length !== 0) {
+    // console.log(actions.rows, req.data.id)
+    if (actions.rows.length !== 0) {
       return res.status(400).json({ message: "You already joined action!" });
     }
   } catch (err) {
