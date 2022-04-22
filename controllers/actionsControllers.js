@@ -3,7 +3,17 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 
 // Action creation (POST)
 const createAction = async (req, res) => {
-  const { title, type, description, address, beginDate, endDate, beginTime, endTime, city } = req.body;
+  const {
+    title,
+    type,
+    description,
+    address,
+    beginDate,
+    endDate,
+    beginTime,
+    endTime,
+    city,
+  } = req.body;
   try {
     await Postgres.query(
       "INSERT INTO actions(title, type, description, address, begin_date, end_date, begin_time, end_time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
@@ -135,6 +145,18 @@ const joinAction = async (req, res) => {
     return res.status(400).json({
       message: "Action is either cancelled or completed",
     });
+  }
+  // Check if user did not already join the action
+  try {
+    const actions = await Postgres.query(
+      "SELECT * FROM participants WHERE user_id=$1 AND action_id=$2",
+      [req.data.id, req.params.id]
+    );
+    if (actions.fields.length !== 0) {
+      return res.status(400).json({ message: "You already joined action!" });
+    }
+  } catch (err) {
+    return res.status(400).json({ message: err });
   }
   try {
     await Postgres.query(
