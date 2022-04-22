@@ -3,7 +3,17 @@ const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 
 // Action creation (POST)
 const createAction = async (req, res) => {
-  const { title, type, description, address, beginDate, endDate, beginTime, endTime, city } = req.body;
+  const {
+    title,
+    type,
+    description,
+    address,
+    beginDate,
+    endDate,
+    beginTime,
+    endTime,
+    city,
+  } = req.body;
   try {
     await Postgres.query(
       "INSERT INTO actions(title, type, description, address, begin_date, end_date, begin_time, end_time, organiser_id, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
@@ -74,6 +84,26 @@ const getActionById = async (req, res) => {
       return res
         .status(400)
         .json({ message: `Action with id: ${req.params.action_id} not found` });
+    }
+    return res.status(200).json({ data: action.rows[0] });
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
+};
+
+// Get an action by id
+const getActionByOrganiserId = async (req, res) => {
+  try {
+    const action = await Postgres.query(
+      "SELECT * FROM actions WHERE organiser_id=$1",
+      [req.params.organiser_id]
+    );
+    if (action.rows.length === 0) {
+      return res
+        .status(400)
+        .json({
+          message: `Action with id: ${req.params.organiser_id} not found`,
+        });
     }
     return res.status(200).json({ data: action.rows[0] });
   } catch (err) {
@@ -152,6 +182,7 @@ module.exports = {
   createAction,
   filterActions,
   getActionById,
+  getActionByOrganiserId,
   patchAction,
   deleteAction,
   joinAction,
