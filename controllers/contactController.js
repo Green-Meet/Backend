@@ -8,7 +8,7 @@ const contact = async (req, res) => {
   } catch (err) {
     return res.status(400).json({message: err});
   }
-  return res.status(200).json({message: "Message sent successfully"});
+  return res.status(201).json({message: "Message sent successfully"});
 }
 
 module.exports = {contact};
