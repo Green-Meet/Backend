@@ -25,7 +25,7 @@ router.get("/actions", isLoggedIn, userActions);
 router.get("/isLogged", isLoggedIn);
 
 // get user data by ID
-router.get("/:id", isLoggedIn, getUserById);
+router.get("/:id", getUserById);
 
 // PATCH route to modify the data of a user
 router.patch("/", isLoggedIn, userPatchValidation, patchUser);
