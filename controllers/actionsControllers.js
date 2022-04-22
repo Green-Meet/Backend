@@ -166,6 +166,18 @@ const joinAction = async (req, res) => {
       message: "Action is either cancelled or completed",
     });
   }
+  // Check if user did not already join the action
+  try {
+    const actions = await Postgres.query(
+      "SELECT * FROM participants WHERE user_id=$1 AND action_id=$2",
+      [req.data.id, req.params.id]
+    );
+    if (actions.fields.length !== 0) {
+      return res.status(400).json({ message: "You already joined action!" });
+    }
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
   try {
     await Postgres.query(
       "INSERT INTO participants (user_id, action_id) VALUES ($1, $2)",
