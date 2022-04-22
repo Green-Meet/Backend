@@ -21,6 +21,9 @@ router.get("/", isLoggedIn, getUser);
 // GET user's actions
 router.get("/actions", isLoggedIn, userActions);
 
+// GET login
+router.get("/isLogged", isLoggedIn);
+
 // get user data by ID
 router.get("/:id", isLoggedIn, getUserById);
 
