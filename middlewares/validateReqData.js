@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const Joi = require("@hapi/joi");
 
+// REGISTER SCHEMA
 const registerSchema = Joi.object({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
@@ -9,10 +10,12 @@ const registerSchema = Joi.object({
     password: Joi.string().min(6).required(),
     city: Joi.string().required(),
 });
+// LOGIN SCHEMA
 const loginSchema = Joi.object({
   email: Joi.string().required().email(),
   password: Joi.string().min(6).required(),
 });
+// CREATE ACTION SCHEMA
 const actionSchema = Joi.object({
     title: Joi.string().required(),
     type: Joi.string().required(),
@@ -24,6 +27,7 @@ const actionSchema = Joi.object({
     endTime: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/).required(),
     city: Joi.string().required(),
 });
+// UPDATE ACTION SCHEMA
 const actionPatchSchema = Joi.object({
   title: Joi.string(),
   type: Joi.string(),
@@ -37,7 +41,7 @@ const actionPatchSchema = Joi.object({
     .regex(/^([0-9]{2})\:([0-9]{2})$/),
   city: Joi.string(),
 });
-
+// UPDATE USER SCHEMA
 const userPatchSchema = Joi.object({
   firstName: Joi.string(),
   lastName: Joi.string(),
@@ -45,7 +49,17 @@ const userPatchSchema = Joi.object({
   city: Joi.string(),
   address: Joi.string(),
 });
+// CONTACT SCHEMA 
+const contactSchema = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  email: Joi.string().email().required(),
+  text: Joi.string().required(),
+});
 
+// VALIDATION FUNCTIONS
+
+// REGISTER VALIDATION FUNCTION
 const regValidation = (req, res, next) => {
   const validationResult = registerSchema.validate(req.body);
   if (validationResult.error) {
@@ -55,6 +69,7 @@ const regValidation = (req, res, next) => {
   }
   next();
 };
+// LOGIN VALIDATION ACTION
 const loginValidation = (req, res, next) => {
   const validationResult = loginSchema.validate(req.body);
   if (validationResult.error) {
@@ -64,6 +79,7 @@ const loginValidation = (req, res, next) => {
   }
   next();
 };
+// CREATE ACTION VALIDATION FUNCTION
 const actionValidation = (req, res, next) => {
   const validationResult = actionSchema.validate(req.body);
   if (validationResult.error) {
@@ -73,6 +89,7 @@ const actionValidation = (req, res, next) => {
   }
   next();
 };
+// UPDATE ACTION VALIDATION FUNCTION
 const actionPatchValidation = (req, res, next) => {
   const validationResult = actionPatchSchema.validate(req.body);
   if (validationResult.error) {
@@ -82,9 +99,19 @@ const actionPatchValidation = (req, res, next) => {
   }
   next();
 };
-
+// UPDATE USER VALIDATION FUNCTION
 const userPatchValidation = (req, res, next) => {
   const validationResult = userPatchSchema.validate(req.body);
+  if (validationResult.error) {
+    return res.status(400).json({
+      message: validationResult.error,
+    });
+  }
+  next();
+};
+// CONTACT VALIDATION FUNCTION 
+const contactValidation = (req, res, next) => {
+  const validationResult = contactSchema.validate(req.body);
   if (validationResult.error) {
     return res.status(400).json({
       message: validationResult.error,
@@ -100,4 +127,5 @@ module.exports = {
   actionValidation,
   actionPatchValidation,
   userPatchValidation,
+  contactValidation
 };
