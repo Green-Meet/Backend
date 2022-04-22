@@ -18,6 +18,23 @@ const getUser = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    console.log(req.params);
+    const user = await Postgres.query("SELECT * FROM USERS WHERE user_id=$1", [
+      parseInt(req.params.id),
+    ]);
+    if (user.rows.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `User with id ${req.params.user_id} not found` });
+    }
+    return res.status(200).json({ data: user.rows[0] });
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
+};
+
 // Modify user data
 const patchUser = async (req, res) => {
   let queryStart = "UPDATE users SET ";
@@ -75,4 +92,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, patchUser, userActions, deleteUser };
+module.exports = { getUser, getUserById, patchUser, userActions, deleteUser };

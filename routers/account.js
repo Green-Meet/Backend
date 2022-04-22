@@ -9,6 +9,7 @@ const { userPatchValidation } = require("../middlewares/validateReqData");
 // Controllers
 const {
   getUser,
+  getUserById,
   patchUser,
   userActions,
   deleteUser,
@@ -17,11 +18,14 @@ const {
 // get user data
 router.get("/", isLoggedIn, getUser);
 
-// PATCH route to modify the data of a user
-router.patch("/", isLoggedIn, userPatchValidation, patchUser);
-
 // GET user's actions
 router.get("/actions", isLoggedIn, userActions);
+
+// get user data by ID
+router.get("/:id", isLoggedIn, getUserById);
+
+// PATCH route to modify the data of a user
+router.patch("/", isLoggedIn, userPatchValidation, patchUser);
 
 // Delete user account
 router.delete("/", isLoggedIn, deleteUser);
