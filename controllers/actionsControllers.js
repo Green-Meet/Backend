@@ -99,13 +99,12 @@ const getActionByOrganiserId = async (req, res) => {
       [req.params.organiser_id]
     );
     if (action.rows.length === 0) {
-      return res
-        .status(400)
-        .json({
-          message: `Action with id: ${req.params.organiser_id} not found`,
-        });
+      return res.status(400).json({
+        message: `Action with id: ${req.params.organiser_id} not found`,
+      });
     }
-    return res.status(200).json({ data: action.rows[0] });
+    console.log(action.rows);
+    return res.status(200).json({ data: action.rows });
   } catch (err) {
     return res.status(400).json({ message: err });
   }
