@@ -6,36 +6,45 @@ const secret = process.env.SECRET;
 
 // Login route
 const login = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await Postgres.query("SELECT * FROM users WHERE email=$1", [email]);
-        if (user.rows === 0) {
-            res.status(400).json({
-                message: "Invalid email"
-            });
-        }
-        const isPasswordValid = await bcrypt.compare(
-            password,
-            user.rows[0].password
-        );
-        if (!isPasswordValid) {
-            return res.status(400).json({
-                message: "Invalid password"
-            })
-        }
-        const token = jwt.sign({ id: user.rows[0].user_id }, secret);
-        res.cookie("jwt", token, {
-            expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
-            httpOnly: true,
-            secure: false,
-        });
-        res.redirect("/");
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            message: err
-        });
+  const { email, password } = req.body;
+  try {
+    const user = await Postgres.query("SELECT * FROM users WHERE email=$1", [
+      email,
+    ]);
+    if (user.rows === 0) {
+      res.status(400).json({
+        message: "Invalid email",
+      });
     }
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user.rows[0].password
+    );
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        message: "Invalid password",
+      });
+    }
+    const token = jwt.sign({ id: user.rows[0].user_id }, secret);
+    res
+      .cookie("jwt", token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
+        httpOnly: true,
+        secure: false,
+      })
+      .status(200)
+      .json({
+        last_name: user.rows[0].last_name,
+        first_name: user.rows[0].first_name,
+      });
+
+    console.log("after json");
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: err,
+    });
+  }
 };
 
 // Export
