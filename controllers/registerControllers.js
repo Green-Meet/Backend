@@ -10,10 +10,7 @@ const registerRoute = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 12);
   const { firstName, lastName, email, city } = req.body;
   try {
-    const result = await Postgres.query(
-      "INSERT INTO users(last_name, first_name, email, city, password) VALUES ($1, $2, $3, $4, $5)  RETURNING user_id, first_name, last_name",
-      [firstName, lastName, email, city, hashedPassword]
-    );
+    const result = await createUser(req);
     const {user_id, first_name, last_name} = result.rows[0];
     const token = jwt.sign({ id: user_id }, secret);
     return res
@@ -34,3 +31,10 @@ const registerRoute = async (req, res) => {
 
 // Export
 module.exports = { registerRoute };
+
+function createUser(req) {
+    return Postgres.query(
+      "INSERT INTO users(last_name, first_name, email, city, password) VALUES ($1, $2, $3, $4, $5)  RETURNING user_id, first_name, last_name",
+      [firstName, lastName, email, city, hashedPassword]
+    )
+}

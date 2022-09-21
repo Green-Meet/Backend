@@ -8,9 +8,7 @@ const secret = process.env.SECRET;
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await Postgres.query("SELECT * FROM users WHERE email=$1", [
-      email,
-    ]);
+    const user = await selectUserByEmail(req);
     if (user.rows === 0) {
       res.status(400).json({
         message: "Invalid email",
@@ -40,7 +38,6 @@ const login = async (req, res) => {
 
     console.log("after json");
   } catch (err) {
-    console.log(err);
     res.status(400).json({
       message: err,
     });
@@ -49,3 +46,9 @@ const login = async (req, res) => {
 
 // Export
 module.exports = { login };
+
+function selectUserByEmail(req) {
+    return Postgres.query("SELECT * FROM users WHERE email=$1", [
+      email,
+    ])
+}
