@@ -18,7 +18,7 @@ const {
   patchAction,
   deleteAction,
   joinAction,
-} = require("../controllers/actionsControllers");
+} = require("../controllers/actions-service");
 
 // Action creation (POST)
 router.post("/", isLoggedIn, actionValidation, createAction);

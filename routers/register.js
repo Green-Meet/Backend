@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
-// const joi = require("Joi");
+
+const userRepository = require("../repositories/user-repository");
 
 // Middleware
 const { regValidation } = require('../middlewares/validateReqData');
 
 // Controller
-const { registerRoute } = require("../controllers/registerControllers");
+const { RegisterService } = require("../controllers/register-service");
 
 // Create user (signup)
-router.post("/", regValidation, registerRoute);
+router.post("/", regValidation, RegisterService(userRepository));
 
 // Export route
 module.exports = router;
