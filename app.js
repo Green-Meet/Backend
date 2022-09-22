@@ -1,6 +1,7 @@
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
+
 // Cors
 const cors = require("cors");
 app.use(
@@ -54,7 +55,4 @@ app.get("*", (_req, res) => {
   res.status(404).send("Error 404, this page does not exists");
 });
 
-// Server start
-app.listen(8001, () => {
-    console.log("Listening on port 8001...");
-});
+module.exports = app;
