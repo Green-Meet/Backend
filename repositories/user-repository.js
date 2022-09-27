@@ -1,5 +1,4 @@
 const { Pool } = require("pg");
-// const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
 
 const Postgres = new Pool(
         {
@@ -8,6 +7,7 @@ const Postgres = new Pool(
             database: process.env.PGDATABASE,
             password: process.env.PGPASSWORD,
             port: process.env.PGPORT,
+            ssl: { rejectUnauthorized: false }
         });
 
 function createUser(data) {

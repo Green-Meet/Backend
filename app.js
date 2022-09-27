@@ -1,7 +1,6 @@
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
-const { Client } = require("pg")
 
 // Cors
 const cors = require("cors");
@@ -17,32 +16,6 @@ const dotenv = require("dotenv");
 dotenv.config({
   path: "./config.env",
 });
-
-// PostGres
-const { Pool } = require("pg");
-// const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
-
-const connectDb = async () => {
-    try {
-        const pool = new Pool({
-            user: process.env.PGUSER,
-            host: process.env.PGHOST,
-            database: process.env.PGDATABASE,
-            password: process.env.PGPASSWORD,
-            port: process.env.PGPORT,
-            //ssl: { rejectUnauthorized: true }
-        });
- 
-        await pool.connect()
-        const res = await pool.query('SELECT * FROM actions')
-        console.log(res.rows)
-        await pool.end()
-    } catch (error) {
-        console.log(error)
-    }
-}
- 
-connectDb()
 
 // Middlewares
 app.use(cookieParser());

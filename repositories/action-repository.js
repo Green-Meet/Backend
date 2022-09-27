@@ -1,11 +1,13 @@
 const { Pool } = require("pg");
-//const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
-const Postgres = new Pool({
+
+const Postgres = new Pool(
+        {
             user: process.env.PGUSER,
             host: process.env.PGHOST,
             database: process.env.PGDATABASE,
             password: process.env.PGPASSWORD,
             port: process.env.PGPORT,
+            ssl: { rejectUnauthorized: false }
         });
 
 function UpdateActionToCancelStatus(req) {
