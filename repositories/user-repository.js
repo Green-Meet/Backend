@@ -1,5 +1,14 @@
 const { Pool } = require("pg");
-const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+// const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+
+const Postgres = new Pool(
+        {
+            user: process.env.PGUSER,
+            host: process.env.PGHOST,
+            database: process.env.PGDATABASE,
+            password: process.env.PGPASSWORD,
+            port: process.env.PGPORT,
+        });
 
 function createUser(data) {
     return Postgres.query(
@@ -19,7 +28,9 @@ function findAll() {
 }
 
 function UpdateUserToNullAttributes(req) {
-    return Postgres.query("UPDATE users SET first_name = null, last_name = null, email = null, city = null, password = null, is_deleted = true WHERE user_id=$1", [req.params.user_id]);
+    return Postgres.query("UPDATE users SET first_name = null, last_name = null, email = null, city = null, password = null, is_deleted = true WHERE user_id=$1", [
+      req.params.user_id
+    ]);
 }
 
 function selectUserByData(req) {

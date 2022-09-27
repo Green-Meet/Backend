@@ -26,7 +26,7 @@ const {
 router.post("/", isLoggedIn, actionValidation, createAction(actionRepository));
 
 // Get all actions or filter actions by request query params
-router.get("/", filterActions);
+router.get("/", filterActions(actionRepository));
 
 // Get an action by organiser id
 router.get("/organiser/:organiser_id", getActionByOrganiserId(actionRepository));

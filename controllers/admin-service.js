@@ -8,7 +8,6 @@ const getUsers = (userRepository) => {
             return res.status(400).json({ message: err });
         }
         res.json({ data: users.rows });
-        return users;
     }
 };
 

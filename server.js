@@ -1,4 +1,4 @@
-const app = require('./app');
+const {app, connectDb} = require('./app');
 
 // Server start
 app.listen(8001, () => {

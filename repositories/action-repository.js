@@ -1,5 +1,12 @@
 const { Pool } = require("pg");
-const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+//const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+const Postgres = new Pool({
+            user: process.env.PGUSER,
+            host: process.env.PGHOST,
+            database: process.env.PGDATABASE,
+            password: process.env.PGPASSWORD,
+            port: process.env.PGPORT,
+        });
 
 function UpdateActionToCancelStatus(req) {
     return Postgres.query("UPDATE actions SET status = 2 WHERE action_id=$1", [req.params.action_id]);
