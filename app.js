@@ -41,7 +41,7 @@ app.use("/api/account", account);
 app.use("/api/admin", admin);
 app.use("/api/contact", contact);
 
-app.get("/", (_req, res) => {
+app.get("api/", (_req, res) => {
   res.setHeader("Content-Type", "text/html");
   res.send("<h1>Welcome</h1>");
 });

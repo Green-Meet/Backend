@@ -18,7 +18,7 @@ const getUser = (userRepository) => {
 const getUserById = (userRepository) => { 
   return async (req, res) => {
     try {
-      const user = await userRepository.selectUserFromId(req);
+      const user = await userRepository.selectUserById(req);
       if (user.rows.length === 0) {
         return res
           .status(400)
