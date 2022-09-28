@@ -1,6 +1,7 @@
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
+const path = require('path');
 
 // Cors
 const cors = require("cors");
@@ -12,10 +13,10 @@ app.use(
 );
 
 // Dotenv
+let environment = process.env.ENVIRONMENT;
+if (!process.env.ENVIRONMENT) { environment = 'prod' };
 const dotenv = require("dotenv");
-dotenv.config({
-  path: "./config.env",
-});
+dotenv.config({ path: path.resolve(__dirname + `/config/${environment}.env`)});
 
 // Middlewares
 app.use(cookieParser());

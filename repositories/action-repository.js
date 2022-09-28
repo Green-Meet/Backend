@@ -1,5 +1,8 @@
 const { Pool } = require("pg");
 
+let environment = process.env.ENVIRONMENT;
+if (!process.env.ENVIRONMENT) { environment = 'prod' };
+
 const Postgres = new Pool(
         {
             user: process.env.PGUSER,
@@ -7,7 +10,7 @@ const Postgres = new Pool(
             database: process.env.PGDATABASE,
             password: process.env.PGPASSWORD,
             port: process.env.PGPORT,
-            ssl: { rejectUnauthorized: false }
+            ssl: environment === 'prod' ? { rejectUnauthorized: false } : null
         });
 
 function UpdateActionToCancelStatus(req) {
@@ -22,6 +25,7 @@ function getActionFromParticipants(req) {
 }
 
 function selectAction(req) {
+  console.log(environment)
   return Postgres.query(
     "SELECT status FROM actions WHERE action_id = $1",
     [req.params.action_id]

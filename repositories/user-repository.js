@@ -1,5 +1,8 @@
 const { Pool } = require("pg");
 
+let environment = process.env.ENVIRONMENT;
+if (!process.env.ENVIRONMENT) { environment = 'prod' };
+
 const Postgres = new Pool(
         {
             user: process.env.PGUSER,
@@ -7,7 +10,7 @@ const Postgres = new Pool(
             database: process.env.PGDATABASE,
             password: process.env.PGPASSWORD,
             port: process.env.PGPORT,
-            ssl: { rejectUnauthorized: false }
+            ssl: environment === 'prod' ? { rejectUnauthorized: false } : null
         });
 
 function createUser(data) {
@@ -39,7 +42,7 @@ function selectUserByData(req) {
     ])
 }
 
-function selectUserFromId(req) {
+function selectUserById(req) {
   return Postgres.query("SELECT * FROM USERS WHERE user_id=$1", [
       parseInt(req.params.id),
     ])
@@ -83,6 +86,6 @@ module.exports = {
   queryBuilder, 
   updateUserToCancelStatus, 
   selectUserByData, 
-  selectUserFromId, 
+  selectUserById, 
   selectParticipantAction
 };
