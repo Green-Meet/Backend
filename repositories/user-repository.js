@@ -13,7 +13,8 @@ const Postgres = new Pool(
             ssl: environment === 'prod' ? { rejectUnauthorized: false } : null
         });
 
-function createUser(data) {
+function createUser(firstName, lastName, email, city, hashedPassword) {
+  console.log("req, " + firstName, lastName, email, city)
     return Postgres.query(
       "INSERT INTO users(last_name, first_name, email, city, password) VALUES ($1, $2, $3, $4, $5)  RETURNING user_id, first_name, last_name",
       [firstName, lastName, email, city, hashedPassword]

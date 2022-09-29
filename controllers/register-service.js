@@ -9,7 +9,7 @@ const RegisterService = (userRepository) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const { firstName, lastName, email, city } = req.body;
     try {
-      const result = await userRepository.createUser(req);
+      const result = await userRepository.createUser(firstName, lastName, email, city, hashedPassword);
       const {user_id, first_name, last_name} = result.rows[0];
       const token = jwt.sign({ id: user_id }, secret);
       return res
