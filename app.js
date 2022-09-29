@@ -34,15 +34,15 @@ const admin = require("./routers/admin");
 const contact = require("./routers/contact");
 
 // API routes
-app.use("/api/login", login);
-app.use("/api/logout", logout);
-app.use("/api/register", register);
-app.use("/api/actions", actions);
-app.use("/api/account", account);
-app.use("/api/admin", admin);
-app.use("/api/contact", contact);
+app.use("/login", login);
+app.use("/logout", logout);
+app.use("/register", register);
+app.use("/actions", actions);
+app.use("/account", account);
+app.use("/admin", admin);
+app.use("/contact", contact);
 
-app.get("api/", (_req, res) => {
+app.get("/", (_req, res) => {
   res.setHeader("Content-Type", "text/html");
   res.send("<h1>Welcome</h1>");
 });

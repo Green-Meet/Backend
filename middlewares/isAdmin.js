@@ -1,7 +1,20 @@
 const express = require("express");
 const app = express();
 const { Pool } = require("pg");
-const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+
+let environment = process.env.ENVIRONMENT;
+if (!process.env.ENVIRONMENT) { environment = 'prod' };
+
+const Postgres = new Pool(
+        {
+            user: process.env.PGUSER,
+            host: process.env.PGHOST,
+            database: process.env.PGDATABASE,
+            password: process.env.PGPASSWORD,
+            port: process.env.PGPORT,
+            ssl: environment === 'prod' ? { rejectUnauthorized: false } : null
+        });
+
 
 const isAdmin = async (req, res, next) => {
     try {
