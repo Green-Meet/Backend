@@ -14,7 +14,6 @@ const Postgres = new Pool(
         });
 
 function createUser(firstName, lastName, email, city, hashedPassword) {
-  console.log("req, " + firstName, lastName, email, city)
     return Postgres.query(
       "INSERT INTO users(last_name, first_name, email, city, password) VALUES ($1, $2, $3, $4, $5)  RETURNING user_id, first_name, last_name",
       [firstName, lastName, email, city, hashedPassword]
@@ -50,6 +49,7 @@ function selectUserById(req) {
 }
 
 function selectParticipantAction(req) {
+  console.log("REQ , " + req.data.id)
   return Postgres.query(
       "SELECT * FROM actions INNER JOIN participants ON participants.action_id = actions.action_id WHERE participants.user_id = $1",
       [req.data.id]

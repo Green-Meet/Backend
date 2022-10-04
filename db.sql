@@ -4,18 +4,25 @@ CREATE TABLE users (
 	first_name VARCHAR (50),
 	email VARCHAR (150),
 	city VARCHAR (50),
-	is_admin BOOLEAN
+	is_admin BOOLEAN,
+	password VARCHAR(60),
+	is_deleted BOOLEAN DEFAULT false,
+	constraint_email UNIQUE (email)
 );
-DROP TABLE users;
+
 CREATE TABLE actions (
 	action_id SERIAL PRIMARY KEY,
 	title VARCHAR(50),
 	type VARCHAR (30),
 	description VARCHAR (500),
 	address VARCHAR (70),
-	date DATE,
-	time VARCHAR (20),
+	city VARCHAR(70)
+	begin_date DATE,
+	end_date DATE,
+	begin_time VARCHAR (20),
+	end_time VARCHAR (20),
 	organiser_id INTEGER,
+	status INTEGER DEFAULT 0,
 	CONSTRAINT fk_user FOREIGN KEY (organiser_id) REFERENCES users (user_id)
 );
 
