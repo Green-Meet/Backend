@@ -59,7 +59,7 @@ function selectParticipantAction(req) {
 function updateUserToCancelStatus(req) {
   return Postgres.query(
       "UPDATE users SET first_name = null, last_name = null, email = null, city = null, password = null, is_deleted = true WHERE user_id=$1",
-      [req.data.id]
+      [parseInt(req.params.id)]
     )
 }
 

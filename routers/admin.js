@@ -13,7 +13,7 @@ const isLoggedIn = require("../middlewares/isLogged");
 const { getUsers, deleteActions, deleteUser } = require("../controllers/admin-service");
 
 // GET list of users
-router.get("/users", isLoggedIn, isAdmin, getUsers(userRepository));
+router.get("/users", getUsers(userRepository));
 
 // DELETE actions
 router.delete("/action/:action_id", isLoggedIn, isAdmin, deleteActions(actionRepository));
