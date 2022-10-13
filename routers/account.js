@@ -33,7 +33,7 @@ router.get("/:id", getUserById(userRepository));
 router.patch("/", isLoggedIn, userPatchValidation, patchUser(userRepository));
 
 // Delete user account
-router.delete("/", isLoggedIn, deleteUser(userRepository));
+router.delete("/:id", deleteUser(userRepository));
 
 // Exports
 module.exports = router;

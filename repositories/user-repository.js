@@ -30,9 +30,9 @@ function findAll() {
     return Postgres.query("SELECT * FROM users");
 }
 
-function UpdateUserToNullAttributes(req) {
-    return Postgres.query("UPDATE users SET first_name = null, last_name = null, email = null, city = null, password = null, is_deleted = true WHERE user_id=$1", [
-      req.params.user_id
+function deleteUser(req) {
+    return Postgres.query("DELETE FROM users WHERE user_id=$1", [
+      req.params.id
     ]);
 }
 
@@ -83,7 +83,7 @@ module.exports = {
   createUser, 
   selectUserByEmail, 
   findAll, 
-  UpdateUserToNullAttributes, 
+  deleteUser, 
   queryBuilder, 
   updateUserToCancelStatus, 
   selectUserByData, 

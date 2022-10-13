@@ -64,7 +64,7 @@ const userActions = (userRepository) => {
 const deleteUser = (userRepository) => { 
   return async (req, res) => {
     try {
-      await userRepository.updateUserToCancelStatus(req);
+      await userRepository.deleteUser(req);
       res.clearCookie("jwt").redirect("/");
     } catch (err) {
       return newError(res, err);
