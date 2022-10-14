@@ -32,8 +32,8 @@ function selectAction(req) {
   );
 }
 
-function updateActionToCancelStatus(req) {
-  return Postgres.query("UPDATE actions SET status = 2 WHERE action_id=$1", [
+function deleteAction(req) {
+  return Postgres.query("DELETE FROM actions WHERE action_id=$1", [
     req.params.action_id,
   ]);
 }
@@ -116,5 +116,5 @@ module.exports = {
     selectActionByOrganiserId,
     queryBuilder,
     updateAction,
-    updateActionToCancelStatus
+    updateActionToCancelStatus: deleteAction
 };

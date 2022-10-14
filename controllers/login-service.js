@@ -34,6 +34,7 @@ const LoginService = (userRepository) => {
         .json({
           last_name: user.rows[0].last_name,
           first_name: user.rows[0].first_name,
+          token: token
         });
 
       console.log("after json");
